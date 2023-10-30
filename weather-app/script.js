@@ -1,4 +1,4 @@
-localStoragecd//Checking for Geolocation Support
+//Checking for Geolocation Support
 if (!("geolocation" in navigator)) {
     console.log('Geolocation is not supported by this browser');
 }
