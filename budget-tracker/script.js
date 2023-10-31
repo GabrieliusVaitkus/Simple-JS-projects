@@ -8,6 +8,7 @@ const totalIncomeDisplay = document.getElementById('totalIncomeDisplay');
 const totalExpensesDisplay = document.getElementById('totalExpensesDisplay');
 const balanceDisplay = document.getElementById('balanceDisplay');
 const ctx = document.getElementById('budgetChart').getContext('2d');
+let myChart = null;
 //Event listener for the "Add" button to trigger the "addEntry" function
 addButton.addEventListener('click', addEntry);
 //Function to handle the logic when "Add" is clicked
@@ -64,9 +65,42 @@ function updateDisplay() {
     totalIncomeDisplay.textContent = totalIncome.toFixed(2);
     totalExpensesDisplay.textContent = totalExpenses.toFixed(2);
     balanceDisplay.textContent = balance.toFixed(2);
+    renderChart(totalIncome, totalExpenses);
 }
 updateDisplay();
 
+
+
 function renderChart(income, expenses) {
-    
+    // If a chart instance exists, destroy it before creating a new one
+    if (myChart) {
+        myChart.destroy();
+    }
+
+    myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Income', 'Expenses'],
+            datasets: [{
+                label: 'Budget Overview',
+                data: [income, expenses],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
 }
